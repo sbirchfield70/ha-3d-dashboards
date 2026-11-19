@@ -1,0 +1,37 @@
+# Keep a dashboard on a Nest Hub (Google display) during the day.
+# The Hub drops Home Assistant casts after about 10 minutes, so this re-casts every 8 minutes.
+# Casting needs Home Assistant reachable over HTTPS (for example Nabu Casa).
+automation:
+  - alias: Kitchen display - keep dashboard cast
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/8"
+    conditions:
+      - condition: time
+        after: "06:00:00"
+        before: "22:00:00"
+    actions:
+      - action: media_player.volume_mute        # silence the cast chime
+        target: { entity_id: media_player.kitchen_display }
+        data: { is_volume_muted: true }
+      - action: media_player.turn_off
+        target: { entity_id: media_player.kitchen_display }
+      - delay: { seconds: 2 }
+      - action: cast.show_lovelace_view
+        data:
+          entity_id: media_player.kitchen_display
+          dashboard_path: home-3d
+          view_path: home
+      - delay: { seconds: 5 }
+      - action: media_player.volume_mute
+        target: { entity_id: media_player.kitchen_display }
+        data: { is_volume_muted: false }
+
+  - alias: Kitchen display - stop at night
+    triggers:
+      - trigger: time
+        at: "22:00:00"
+    actions:
+      - action: media_player.turn_off
+        target: { entity_id: media_player.kitchen_display }

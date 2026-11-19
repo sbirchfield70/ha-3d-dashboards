@@ -1,0 +1,130 @@
+# room3d-hero: one example per scene. Put one at the top of each page of a Sections dashboard.
+# Every card also takes: weather, outside_temp, sun, title, icon, stats.
+
+- type: custom:room3d-hero
+  scene: home
+  title: Home
+  icon: mdi:home
+  house_color: "#c9b28c"
+  roof_color: "#5a4a42"
+  entities:
+    garage: cover.garage_door
+    porch_light: light.porch
+    garage_lights: [light.garage_left, light.garage_right]
+    lock: lock.front_door
+  stats:
+    - { entity: lock.front_door, name: Front Door, good: [locked], bad: [unlocked, jammed] }
+    - { entity: cover.garage_door, name: Garage, good: [closed] }
+    - { entity: climate.downstairs, name: Downstairs }
+    - { entity: sensor.outdoor_humidity, name: Humidity, icon: mdi:water-percent }
+
+- type: custom:room3d-hero
+  scene: garage
+  title: Garage
+  icon: mdi:garage-variant
+  entities:
+    garage: cover.garage_door
+    garage_lights: [light.garage_left, light.garage_right]
+  stats:
+    - { entity: cover.garage_door, name: Garage Door, good: [closed] }
+
+- type: custom:room3d-hero
+  scene: rooms
+  title: Kitchen & Dining
+  icon: mdi:silverware-fork-knife
+  rooms:
+    - name: Kitchen
+      scene: kitchen
+      items:
+        - { entity: light.kitchen_ceiling, role: main }
+        - { entity: light.kitchen_island, role: pendants }
+        - { entity: light.kitchen_strip, role: strip }
+    - name: Dining Room
+      scene: dining
+      items:
+        - { entity: light.dining_chandelier, role: chandelier }
+        - { entity: switch.china_cabinet, role: cabinet }
+  stats:
+    - { entity: light.kitchen_ceiling, name: Kitchen }
+
+- type: custom:room3d-hero
+  scene: office
+  title: Office
+  icon: mdi:desk
+  entities:
+    tv: media_player.office_tv
+    nightlight: light.office_purifier_night_light
+    purifier: fan.office_purifier
+    thermostat: climate.upstairs
+
+- type: custom:room3d-hero
+  scene: shed
+  title: Shed
+  icon: mdi:home-variant-outline
+  entities:
+    power_probe: [switch.shed_lights, climate.shed_ac]   # if all are unavailable, the shed shows "no power"
+    lights: switch.shed_lights
+    string_lights: switch.shed_string_lights
+    ac: climate.shed_ac
+
+- type: custom:room3d-hero
+  scene: outdoor
+  title: Outdoors
+  icon: mdi:pine-tree
+  entities:
+    mower: lawn_mower.mower
+    mower_charging: binary_sensor.mower_charging
+  stats:
+    - { entity: lawn_mower.mower, name: Mower, icon: mdi:robot-mower }
+
+- type: custom:room3d-hero
+  scene: appliances
+  title: Appliances
+  icon: mdi:washing-machine
+  entities:
+    washer: sensor.washer_machine_state          # "Run" = drum spins
+  stats:
+    - { entity: sensor.washer_time_remaining, name: Time Left, icon: mdi:timer-outline }
+
+- type: custom:room3d-hero
+  scene: pets
+  title: Pets
+  icon: mdi:paw
+  entities:
+    feeding: binary_sensor.cat_feeder_feeding
+    food_level: binary_sensor.cat_feeder_food_level
+    litter_code: sensor.litter_robot_status_code
+  stats:
+    - { entity: binary_sensor.cat_feeder_food_level, name: Food Level, good: ["off"], bad: ["on"] }
+
+- type: custom:room3d-hero
+  scene: vacuums
+  title: Vacuums
+  icon: mdi:robot-vacuum
+  entities:
+    vacuums:
+      - { name: Downstairs, entity: vacuum.downstairs, battery: sensor.downstairs_battery_level }
+      - { name: Upstairs, entity: vacuum.upstairs, battery: sensor.upstairs_battery_level }
+
+- type: custom:room3d-hero
+  scene: system
+  title: Servers
+  icon: mdi:server-network
+  entities:
+    nodes:
+      - { name: node1, kind: mini, entity: binary_sensor.node1_status }
+      - { name: node2, kind: rack, entity: binary_sensor.node2_status }
+      - { name: node3, kind: mini, entity: binary_sensor.node3_status }
+
+- type: custom:room3d-hero
+  scene: car
+  title: My Car
+  icon: mdi:car-estate
+  car_color: "#3f6fb0"
+  entities:
+    lock: lock.car_doors
+    ignition: switch.car_ignition
+    remote_start: sensor.car_remote_start_status
+  stats:
+    - { entity: lock.car_doors, name: Doors, good: [locked], bad: [unlocked] }
+    - { entity: sensor.car_fuel, name: Fuel, icon: mdi:gas-station }

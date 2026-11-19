@@ -1,0 +1,48 @@
+# Bedroom 3D card: every option with its default. Replace the entity ids with your own,
+# and delete lines for devices you don't have (their tiles will just show "Unavailable").
+# Use it in a Panel view.
+type: custom:bedroom3d-card
+name: Bedroom   # label under the 3D room
+weather: weather.home
+# outside_temp:   # optional sensor; falls back to the weather entity's temperature
+sun: sun.sun
+room_temp: sensor.bedroom_temperature   # sensor.* or climate.*
+room_hum: sensor.bedroom_humidity
+high: sensor.today_high_temperature   # optional: today's high / low / rain chance sensors
+low: sensor.today_low_temperature
+rain_chance: sensor.today_rain_chance
+calendars: []
+tv_lights: light.bedroom_tv_lights
+lamp_left: light.bedroom_lamp_left
+lamp_left_name: Left Lamp
+lamp_right: light.bedroom_lamp_right
+lamp_right_name: Right Lamp
+backyard: switch.backyard_lights
+backyard_name: Backyard Lights
+purifier: fan.bedroom_air_purifier
+purifier_speed: select.bedroom_air_purifier
+purifier_nl: light.bedroom_air_purifier_night_light
+purifier_scene: select.bedroom_air_purifier_night_light_scene
+purifier_aq: sensor.bedroom_air_purifier_air_quality
+purifier_filter: sensor.bedroom_air_purifier_filter_life
+vac: vacuum.bedroom_vacuum
+vac_name: Vacuum
+vac_batt: sensor.bedroom_vacuum_battery_level
+vac_status: sensor.bedroom_vacuum_status
+vac_area: sensor.bedroom_vacuum_cleaned_area
+vac_time: sensor.bedroom_vacuum_cleaning_time
+# vac_segments:   # Dreame only: room segment ids for "clean this room" (e.g. [1, 2]); null = vacuum.start
+litter: vacuum.litter_robot
+litter_code: sensor.litter_robot_status_code
+litter_drawer: sensor.litter_robot_waste_drawer
+litter_level: sensor.litter_robot_litter_level
+litter_weight: sensor.litter_robot_pet_weight
+litter_globe: select.litter_robot_globe_light
+feeder_feeding: binary_sensor.cat_feeder_feeding
+feeder_food: binary_sensor.cat_feeder_food_level
+feeder_error: sensor.cat_feeder_error
+feeder_desiccant: sensor.cat_feeder_desiccant_left_days
+feeder_dispensed: sensor.cat_feeder_total_dispensed
+feeder_planned: sensor.cat_feeder_total_planned
+feeder_manual: text.cat_feeder_manual_feed
+goodnight: script.goodnight

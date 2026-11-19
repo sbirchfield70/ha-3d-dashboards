@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5f9e"/><stop offset=".6" stop-color="#f2b26b"/><stop offset="1" stop-color="#f7d29a"/></linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f6fa8"/><stop offset="1" stop-color="#1d3a63"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1120" cy="520" r="90" fill="#ffe2a8"/>
+  <path d="M0 560 L260 330 L430 470 L640 260 L900 520 L1080 380 L1300 540 L1600 360 L1600 640 L0 640 Z" fill="#3a4f75"/>
+  <path d="M0 600 L320 440 L520 560 L760 420 L980 590 L1240 470 L1600 600 L1600 660 L0 660 Z" fill="#26385a"/>
+  <rect y="640" width="1600" height="260" fill="url(#lake)"/>
+  <rect x="980" y="660" width="280" height="10" rx="5" fill="#ffe2a8" opacity=".55"/>
+  <rect x="1020" y="690" width="200" height="8" rx="4" fill="#ffe2a8" opacity=".4"/>
+  <path d="M0 900 L0 780 Q 200 740 420 800 L560 900 Z" fill="#14243d"/>
+</svg>

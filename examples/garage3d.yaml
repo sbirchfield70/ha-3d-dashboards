@@ -1,0 +1,37 @@
+# Garage 3D card: every option with its default. Replace the entity ids with your own.
+# Use it in a Panel view. Rotate the middle panel with garage-panel-rotation.yaml.
+type: custom:garage3d-card
+weather: weather.home
+# outside_temp: sensor.outdoor_temperature   # optional; falls back to the weather entity's temperature
+house: climate.thermostat                     # indoor temperature + thermostat tile
+sun: sun.sun
+garage: cover.garage_door
+middle: input_select.garage_display_middle_panel   # options: fridge, washer, vacuum_main, vacuum_bedroom
+mode: input_select.garage_display_panel             # state "network" shows the network overlay
+fridge_name: Fridge
+fridge: number.refrigerator_fridge_temperature
+freezer: number.refrigerator_freezer_temperature
+fridge_door: binary_sensor.refrigerator_door
+water_filter: sensor.refrigerator_water_filter
+air_filter: sensor.refrigerator_fresh_air_filter
+ice_plus: switch.refrigerator_ice_plus
+washer: sensor.washer_machine_state
+washer_sub: sensor.washer_sub_cycle
+washer_left: sensor.washer_time_remaining
+vacs:                       # e = vacuum, p = prefix of its sensors (<p>battery_level, <p>status, ...)
+  vacuum_main: { e: vacuum.main_vacuum, p: sensor.main_vacuum_, name: Main Vacuum }
+  vacuum_bedroom: { e: vacuum.bedroom_vacuum, p: sensor.bedroom_vacuum_, name: Bedroom Vacuum }
+lights: switch.backyard_lights
+tv: media_player.living_room_tv
+tv_name: TV
+trash: sensor.next_trash_pickup_date          # state = YYYY-MM-DD
+recycle: sensor.next_recycling_pickup_date
+summary: sensor.today_weather_summary
+summary_alt: sensor.daily_weather_summary
+high: sensor.today_high_temperature
+low: sensor.today_low_temperature
+rain_chance: sensor.today_rain_chance
+cams:
+  - { entity: camera.front_yard, name: Front Yard }
+  - { entity: camera.back_yard, name: Backyard }
+# weatherstar: http://your-ws4kp-host:8080/?kiosk=true   # optional retro TV channel

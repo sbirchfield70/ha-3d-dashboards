@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Cards Demo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+  html, body { margin: 0; background: #0f2547; color: #eef4ff; font-family: Nunito, sans-serif; }
+  #wrap { padding: 0; }
+  #wrap.cards { padding: 16px; max-width: 1180px; margin: 0 auto; display: grid; gap: 18px; }
+  #err { color: #ff8a7a; white-space: pre-wrap; font: 14px monospace; padding: 8px; }
+</style>
+<script src="mock-hass.js"></script>
+</head>
+<body>
+<div id="wrap"></div>
+<div id="err"></div>
+<script>
+  // Demo previews with made-up entities. Open index.html?card=home|bedroom|tv|garage|hero|car|tiles (&panel=... for tv/garage)
+  window.addEventListener("error", (e) => (document.getElementById("err").textContent += "ERROR: " + e.message + " @" + e.filename + ":" + e.lineno + "\n"));
+  const card = new URLSearchParams(location.search).get("card") || "home";
+  const CONFIGS = {
+    home: { file: "home3d-card.js", tag: "home3d-card", cfg: {
+      weather: "weather.home", indoor: ["climate.downstairs", "climate.upstairs"], calendars: ["calendar.family"],
+      rooms: [
+        { name: "Kitchen", scene: "kitchen", temp_entity: "climate.downstairs", items: [
+          { entity: "light.kitchen_ceiling", name: "Main Lights", icon: "mdi:ceiling-light", role: "main" },
+          { entity: "light.kitchen_island", name: "Island", icon: "mdi:ceiling-light-multiple", role: "pendants" },
+          { entity: "light.kitchen_strip", name: "Strip", icon: "mdi:led-strip-variant", role: "strip" }] },
+        { name: "Dining Room", scene: "dining", items: [
+          { entity: "light.dining_chandelier", name: "Chandelier", icon: "mdi:chandelier", role: "chandelier" },
+          { entity: "switch.china_cabinet", name: "Cabinet", icon: "mdi:dresser", role: "cabinet" }] },
+        { name: "Living Room", scene: "living", temp_entity: "climate.downstairs", items: [
+          { entity: "switch.tv_plug", name: "TV", icon: "mdi:television-classic", role: "tv" },
+          { entity: "switch.ceiling_fan", name: "Fan", icon: "mdi:ceiling-fan", role: "fan" },
+          { entity: "climate.downstairs", name: "Thermostat", role: "thermostat" }] },
+        { name: "Bedroom", scene: "bedroom", temp_entity: "sensor.bedroom_temperature", items: [
+          { entity: "light.bedside_left", name: "Left Lamp", icon: "mdi:lamp", role: "lamp_left" },
+          { entity: "light.bedside_right", name: "Right Lamp", icon: "mdi:lamp", role: "lamp_right" },
+          { entity: "light.purifier_night_light", name: "Night Light", icon: "mdi:air-purifier", role: "nightlight" }] },
+      ] } },
+    bedroom: { file: "bedroom3d-card.js", tag: "bedroom3d-card", cfg: { calendars: ["calendar.family"] } },
+    tv: { file: "tv3d-card.js", tag: "tv3d-card", cfg: { calendars: ["calendar.family"] } },
+    garage: { file: "garage3d-card.js", tag: "garage3d-card", cfg: {} },
+    hero: { file: "room3d.js", multi: [
+      { tag: "room3d-hero", cfg: { scene: "home", title: "Home", icon: "mdi:home",
+        entities: { garage: "cover.garage_door", porch_light: "light.porch", garage_lights: ["light.garage_left", "light.garage_right"], lock: "lock.front_door" },
+        stats: [{ entity: "lock.front_door", name: "Front Door", good: ["locked"], bad: ["unlocked", "jammed"] }, { entity: "cover.garage_door", name: "Garage", good: ["closed"] },
+                { entity: "sensor.outdoor_humidity", name: "Humidity", icon: "mdi:water-percent" }, { entity: "climate.downstairs", name: "Downstairs" }] } },
+      { tag: "room3d-hero", cfg: { scene: "pets", title: "Pets", icon: "mdi:paw",
+        entities: { feeding: "binary_sensor.cat_feeder_feeding", food_level: "binary_sensor.cat_feeder_food_level", litter_code: "sensor.litter_robot_status_code" },
+        stats: [{ entity: "vacuum.litter_robot", name: "Litter-Robot", icon: "mdi:cat" }, { entity: "sensor.litter_robot_waste_drawer", name: "Waste Drawer", icon: "mdi:delete-variant" }] } },
+      { tag: "room3d-hero", cfg: { scene: "system", title: "Servers", icon: "mdi:server-network",
+        entities: { nodes: [{ name: "node1", kind: "mini", entity: "binary_sensor.node1_status" }, { name: "node2", kind: "rack", entity: "binary_sensor.node2_status" }, { name: "node3", kind: "mini", entity: "binary_sensor.node3_status" }] },
+        stats: [{ entity: "binary_sensor.cluster_quorate", name: "Cluster", icon: "mdi:server-network", good: ["on"], bad: ["off"] }] } },
+    ] },
+    car: { file: "room3d.js", multi: [
+      { tag: "room3d-hero", cfg: { scene: "car", title: "My Car", icon: "mdi:car-estate", entities: { lock: "lock.car_doors", ignition: "switch.car_ignition" },
+        stats: [{ entity: "lock.car_doors", name: "Doors", good: ["locked"], bad: ["unlocked"] }, { entity: "sensor.car_fuel", name: "Fuel", icon: "mdi:gas-station" }] } },
+      { tag: "room3d-hero", cfg: { scene: "shed", title: "Shed", icon: "mdi:home-variant-outline", entities: { power_probe: ["switch.shed_lights"], lights: "switch.shed_lights", string_lights: "switch.shed_string_lights", ac: "climate.shed_ac" } } },
+    ] },
+    tiles: { file: "room3d.js", multi: [
+      { tag: "room3d-tiles", cfg: { entities: [
+        { entity: "light.kitchen_ceiling", name: "Kitchen" }, { entity: "light.dining_chandelier", name: "Dining Room" },
+        { entity: "switch.china_cabinet", name: "Cabinet", icon: "mdi:led-strip-variant" }, { entity: "light.bedside_left", name: "Left Lamp" },
+        { entity: "cover.garage_door", name: "Garage" }, { entity: "lock.front_door", name: "Front Door" },
+        { entity: "switch.backyard_lights", name: "Backyard", icon: "mdi:string-lights" }, { entity: "fan.purifier", name: "Purifier" }] } },
+    ] },
+  };
+  const C = CONFIGS[card];
+  const s = document.createElement("script");
+  s.type = "module"; s.src = "../cards/" + C.file;
+  s.onload = () => {
+    const wrap = document.getElementById("wrap");
+    const list = C.multi || [{ tag: C.tag, cfg: C.cfg }];
+    if (C.multi) wrap.className = "cards";
+    for (const x of list) {
+      const el = document.createElement(x.tag);
+      el.setConfig(x.cfg);
+      wrap.appendChild(el);
+      el.hass = window.mockHass;
+      setTimeout(() => (el.hass = window.mockHass), 400);
+    }
+  };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>

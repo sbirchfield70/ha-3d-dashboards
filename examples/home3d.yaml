@@ -1,0 +1,45 @@
+# Home 3D card: a full example. Replace the entity ids with your own. Use it in a Panel view.
+type: custom:home3d-card
+weather: weather.home
+# outside_temp: sensor.backyard_temperature
+indoor:
+  - climate.downstairs
+  - climate.upstairs
+calendars:
+  - calendar.family
+roof_color: "#1d5c3d"
+time_format: "12"
+locale: en-US
+rooms:
+  - name: Kitchen
+    scene: kitchen
+    temp_entity: climate.downstairs
+    items:
+      - { entity: light.kitchen_ceiling, name: Main Lights, icon: mdi:ceiling-light, role: main }
+      - { entity: light.kitchen_island, name: Island, icon: mdi:ceiling-light-multiple, role: pendants }
+      - { entity: light.kitchen_strip, name: Strip, icon: mdi:led-strip-variant, role: strip }
+  - name: Dining Room
+    scene: dining
+    items:
+      - { entity: light.dining_chandelier, name: Chandelier, icon: mdi:chandelier, role: chandelier }
+      - { entity: switch.china_cabinet, name: Cabinet, icon: mdi:dresser, role: cabinet }
+      - { entity: light.kitchen_ceiling, name: Kitchen, icon: mdi:ceiling-light, role: doorway }
+  - name: Living Room
+    scene: living
+    temp_entity: climate.downstairs
+    items:
+      - entity: switch.tv_stick_plug
+        name: Streaming Stick
+        icon: mdi:television-classic
+        role: tv
+        action: restart                     # tap twice to run the script below
+        script: script.restart_streaming_stick
+      - { entity: switch.ceiling_fan, name: Fan, icon: mdi:ceiling-fan, role: fan }
+      - { entity: climate.downstairs, name: Thermostat, role: thermostat }
+  - name: Bedroom
+    scene: bedroom
+    temp_entity: sensor.bedroom_temperature
+    items:
+      - { entity: light.bedside_left, name: Left Lamp, icon: mdi:lamp, role: lamp_left }
+      - { entity: light.bedside_right, name: Right Lamp, icon: mdi:lamp, role: lamp_right }
+      - { entity: light.purifier_night_light, name: Night Light, icon: mdi:air-purifier, role: nightlight }

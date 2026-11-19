@@ -1,0 +1,28 @@
+# Helpers + automation that rotate the TV 3D card's right panel every 30 seconds.
+# 1) Create the input_select (Settings > Devices & services > Helpers > Dropdown), or in YAML:
+input_select:
+  tv_display_panel:
+    name: TV display panel
+    options:            # remove panels you don't use; the order is the rotation order
+      - photos
+      - camera
+      - home
+      - mower
+      - vacuum_main
+      - vacuum_bedroom
+      - network
+      - tv_shows
+
+# 2) The automation (paste into a new automation in YAML mode):
+automation:
+  - alias: TV display - rotate right panel
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        seconds: "/30"
+    actions:
+      - action: input_select.select_next
+        target:
+          entity_id: input_select.tv_display_panel
+        data:
+          cycle: true

@@ -1,0 +1,51 @@
+# TV 3D card: every option with its default. Replace the entity ids with your own.
+# Use it in a Panel view. Rotate the right panel with tv-panel-rotation.yaml.
+type: custom:tv3d-card
+weather: weather.home
+# outside_temp:   # optional sensor; falls back to the weather entity's temperature
+sun: sun.sun
+panel: input_select.tv_display_panel   # options = panel keys below; rotate it with an automation
+photo: image.tv_rotation_photo   # any image.* entity (e.g. a rotating photo)
+garage: cover.garage_door
+vac_main: vacuum.main_vacuum
+vac_main_batt: sensor.main_vacuum_battery_level
+vac_main_name: Main Vacuum
+vac_bed: vacuum.bedroom_vacuum
+vac_bed_batt: sensor.bedroom_vacuum_battery_level
+vac_bed_name: Bedroom Vacuum
+lights: switch.backyard_lights
+washer: sensor.washer_machine_state   # shows a washer panel while the state is "Run"
+washer_sub: sensor.washer_sub_cycle
+washer_left: sensor.washer_time_remaining   # seconds
+wind: sensor.wind_speed
+gust: sensor.wind_gust
+rain_chance: sensor.today_rain_chance
+rain_today: sensor.today_rain_accumulation
+summary: sensor.today_weather_summary
+summary_alt: sensor.daily_weather_summary
+high: sensor.today_high_temperature
+low: sensor.today_low_temperature
+trash: sensor.next_trash_pickup_date   # state = YYYY-MM-DD
+recycle: sensor.next_recycling_pickup_date
+calendars: []
+mower: lawn_mower.mower
+mower_battery: sensor.mower_battery
+mower_charging: binary_sensor.mower_charging
+mower_mode: sensor.mower_mode
+mower_next_start: sensor.mower_next_start
+mower_error: sensor.mower_error
+mower_cutting_time: sensor.mower_total_cutting_time
+mower_drive_distance: sensor.mower_total_drive_distance
+mower_charging_cycles: sensor.mower_number_of_charging_cycles
+mower_charging_time: sensor.mower_total_charging_time
+# weatherstar: http://your-ws4kp-host:8080/?kiosk=true   # optional URL of a WeatherStar 4000+ (ws4kp) instance for the retro TV screen
+cams:
+  - camera.front_yard
+  - camera.back_yard
+# Replace or add panels with any Lovelace cards. The key must match an input_select option.
+embeds:
+  network:
+    - type: entities
+      entities:
+        - sensor.speedtest_download
+        - sensor.speedtest_upload

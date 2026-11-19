@@ -1,0 +1,7 @@
+# local working files (may contain personal data) - never commit
+_src/
+_tools/
+*.bak*
+*.gz
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+# room3d-tiles: big 3D touch tiles. Entries can be a plain entity id or an object.
+type: custom:room3d-tiles
+entities:
+  - { entity: light.kitchen_ceiling, name: Kitchen }
+  - { entity: light.dining_chandelier, name: Dining Room }
+  - { entity: switch.china_cabinet, name: Cabinet, icon: mdi:led-strip-variant }
+  - { entity: light.bedside_left, name: Left Lamp }
+  - { entity: cover.garage_door, name: Garage }          # locks and covers always need a second tap
+  - { entity: lock.front_door, name: Front Door }
+  - { entity: switch.coffee_maker, name: Coffee, icon: mdi:coffee, confirm: true }
+  - { entity: sensor.outdoor_temperature, name: Outside }  # sensors open more-info
+  - light.hallway

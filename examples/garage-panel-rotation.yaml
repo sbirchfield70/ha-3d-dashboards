@@ -1,0 +1,35 @@
+# Helpers + automations for the Garage 3D card.
+input_select:
+  garage_display_middle_panel:
+    name: Garage display middle panel
+    options: [fridge, washer, vacuum_main, vacuum_bedroom]
+  garage_display_panel:
+    name: Garage display mode
+    options: [main, network]
+
+automation:
+  # Rotate the appliance panel every 20 seconds.
+  - alias: Garage display - rotate appliance panel
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        seconds: "/20"
+    actions:
+      - action: input_select.select_next
+        target: { entity_id: input_select.garage_display_middle_panel }
+        data: { cycle: true }
+
+  # Show the network overlay for 30 seconds every 5 minutes.
+  - alias: Garage display - network overlay
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/5"
+    actions:
+      - action: input_select.select_option
+        target: { entity_id: input_select.garage_display_panel }
+        data: { option: network }
+      - delay: { seconds: 30 }
+      - action: input_select.select_option
+        target: { entity_id: input_select.garage_display_panel }
+        data: { option: main }
