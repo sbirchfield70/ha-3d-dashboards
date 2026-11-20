@@ -45,13 +45,19 @@ sections:
         bin: green
         content: trash
         interval: 7
+        full_color: false        # tan cart with a dark green lid
+        body_color: "#b9a37c"
+        lid_color: "#2f4d3a"
         grid_options: { columns: 6 }
       - type: custom:home-bin-card
         name: Recycling
         entity: sensor.next_recycling_pickup_date
-        bin: blue
+        bin: yellow
         content: recyclables
         interval: 14
+        full_color: false        # tan cart with a yellow lid
+        body_color: "#b9a37c"
+        lid_color: "#e8cf1f"
         grid_options: { columns: 6 }
   - type: grid
     cards:

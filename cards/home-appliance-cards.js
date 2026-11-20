@@ -9,7 +9,7 @@
  *   home-mini-pc-card       home-server-rack-card  home-bin-card
  */
 (() => {
-  const VERSION = "1.1.1";
+  const VERSION = "1.1.2";
   const OFFS = ["off", "standby", "unavailable", "unknown", "idle", "none", ""];
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const cap = (s) => { s = String(s ?? "").replace(/_/g, " "); return s.charAt(0).toUpperCase() + s.slice(1); };
@@ -687,11 +687,14 @@
         ${star(4, 30, 0)}${star(96, 40, 0.8)}${star(10, 86, 1.6)}${star(92, 92, 0.4)}
         <g class="bin">
           <g class="trash"></g>
-          <path class="body" d="M16 32 L84 32 L78 112 L22 112Z"/>
-          <path class="shade" d="M70 32 L84 32 L78 112 L66 112Z" opacity=".25" fill="#000"/>
-          <g stroke="rgba(0,0,0,.18)" stroke-width="2"><line x1="34" y1="40" x2="36" y2="104"/><line x1="50" y1="40" x2="50" y2="104"/><line x1="66" y1="40" x2="64" y2="104"/></g>
-          <text class="sym" x="50" y="80" font-size="22" text-anchor="middle" fill="rgba(255,255,255,.85)"></text>
-          <g class="lid"><rect class="lidc" x="10" y="24" width="80" height="9" rx="3"/><rect class="lidc2" x="30" y="17" width="40" height="7" rx="3"/></g>
+          <path class="bbody" d="M16 32 L84 32 L78 112 L22 112Z"/>
+          <path d="M22 46 Q22 42 26 42 L74 42 Q78 42 78 46 L76 56 L64 56 L64 50 L36 50 L36 56 L24 56Z" fill="rgba(0,0,0,.14)"/>
+          <path d="M38 74 L62 74 L62 82 L70 82 L67 108 L33 108 L30 82 L38 82Z" fill="rgba(0,0,0,.12)"/>
+          <rect x="38" y="80" width="24" height="2.6" rx="1.3" fill="#c9ced6"/>
+          <path class="shade" d="M70 32 L84 32 L78 112 L66 112Z" opacity=".18" fill="#000"/>
+          <text class="sym" x="50" y="68" font-size="15" text-anchor="middle" fill="rgba(255,255,255,.85)"></text>
+          <rect class="rim" x="13" y="31" width="74" height="6" rx="2"/>
+          <g class="lid"><rect class="lidc" x="10" y="23" width="80" height="9" rx="3"/><rect class="lidc2" x="20" y="19" width="60" height="6" rx="3"/></g>
           <rect x="20" y="110" width="60" height="4" rx="2" fill="#2b2f36"/>
           <circle cx="27" cy="116" r="8" fill="#22262c"/><circle cx="27" cy="116" r="3" fill="#5a6270"/>
           <circle cx="73" cy="116" r="8" fill="#22262c"/><circle cx="73" cy="116" r="3" fill="#5a6270"/></g>
@@ -700,8 +703,12 @@
     wire() {
       const c = this._c, col = BIN_COLORS[c.bin] || [c.bin || "#2fae4a", c.bin_dark || "rgba(0,0,0,.25)"];
       const full = c.full_color !== false;
-      this.$(".body").setAttribute("fill", full ? col[0] : "#5c6573");
-      this.$(".lidc").setAttribute("fill", col[1]); this.$(".lidc2").setAttribute("fill", col[1]);
+      const body = c.body_color || (full ? col[0] : "#5c6573");
+      const lid = c.lid_color || (full ? col[1] : col[0]);
+      this.$(".bbody").setAttribute("fill", body);
+      this.$(".rim").setAttribute("fill", body); this.$(".rim").setAttribute("stroke", "rgba(0,0,0,.22)");
+      this.$(".lidc").setAttribute("fill", lid); this.$(".lidc2").setAttribute("fill", lid);
+      this.$(".lidc2").setAttribute("stroke", "rgba(0,0,0,.18)");
       const recy = /recyc|paper|papier|plastic|verre|glass/i.test(c.content || c.name || "");
       this.$(".sym").textContent = recy ? "♻" : "";
       this.$(".trash").innerHTML = recy

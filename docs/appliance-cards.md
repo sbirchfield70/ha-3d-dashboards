@@ -169,8 +169,12 @@ content: trash      # anything containing "recycl", "paper" or "glass" draws rec
 interval: 7         # days between pickups (sets how full the bin looks)
 hour: 12            # after this hour on pickup day it counts as picked up
 full_color: true    # false = grey body with a coloured lid
+body_color: "#b9a37c"   # optional: any CSS colour for the body (e.g. tan city carts)
+lid_color: "#2f4d3a"    # optional: any CSS colour for the lid
 scale: 0.47         # bin size
 ```
+
+Many cities hand out tan carts with a coloured lid. Use `full_color: false`, `body_color: "#b9a37c"`, and a `lid_color` of `"#2f4d3a"` for dark green or `"#e8cf1f"` for yellow.
 
 | When | What it does |
 |---|---|
