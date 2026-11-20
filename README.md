@@ -15,6 +15,10 @@ There's also a matching skin for the [Glance](https://github.com/glanceapp/glanc
 | ![Room 3D hero](screenshots/hero.png) | ![Room 3D tiles](screenshots/tiles.png) |
 | **[Room 3D hero](docs/room3d.md)**: a banner for the top of any dashboard page, with 11 scenes | **[Room 3D tiles](docs/room3d.md#room3d-tiles)**: big 3D touch tiles for lights, switches, locks and covers |
 
+![Appliance & bin cards](screenshots/appliances.png)
+
+**[Appliance & bin cards](docs/appliance-cards.md)**: 12 animated cards for the washer, fridge, TV, fans, mini-split AC, garage door, robot mower and vacuum, mini PCs, server rack and garbage/recycling bins. They're a drop-in, update-free replacement for the *Animated Appliance & Energy Cards* and *Poubelle Card* packages, using the same config keys.
+
 *Screenshots use made-up demo data.*
 
 ## What's in the repo
@@ -26,6 +30,7 @@ There's also a matching skin for the [Glance](https://github.com/glanceapp/glanc
 | [`cards/tv3d-card.js`](cards/tv3d-card.js) | `custom:tv3d-card` | 960×540 |
 | [`cards/garage3d-card.js`](cards/garage3d-card.js) | `custom:garage3d-card` | 1400×875 |
 | [`cards/room3d.js`](cards/room3d.js) | `custom:room3d-hero`, `custom:room3d-tiles` | fits the column |
+| [`cards/home-appliance-cards.js`](cards/home-appliance-cards.js) | `custom:home-fridge-card`, `home-washer-card`, `home-tv-card`, `home-ceiling-fan-card`, `home-fan-card`, `home-ac-split-card`, `home-garage-door-card`, `home-mower-card`, `home-vacuum-card`, `home-mini-pc-card`, `home-server-rack-card`, `home-bin-card` | fits the column |
 | [`glance/user.css`](glance/user.css) | Glance skin | [docs](docs/glance.md) |
 | [`examples/`](examples) | Ready-to-edit YAML for every card, plus helper automations | |
 | [`demo/`](demo) | Preview any card in a browser with fake data | |
@@ -55,7 +60,7 @@ If you don't own a device (say, a litter box), you can leave its option alone. T
 - **Weather.** Any `weather.*` entity works. The "today's high/low/rain chance" and "summary" options expect separate sensors; integrations such as [Pirate Weather](https://github.com/Pirate-Weather/pirate-weather-ha) provide them.
 - **Calendars.** Any `calendar.*` entities.
 - **Retro TV screen.** The TV and Garage cards draw an old TV set. Set `weatherstar:` to the URL of a self-hosted [WeatherStar 4000+](https://github.com/netbymatt/ws4kp) to play it on that screen. Without it, the screen says "NO SIGNAL".
-- **Embedded cards.** The TV card's vacuum and network panels embed other cards (`appliance-robot-vacuum-solo-card`, `silverfox-network-card`). Replace them with any cards you like using the `embeds:` option.
+- **Embedded cards.** The TV card's vacuum panels embed `home-vacuum-card` from this repo (load `home-appliance-cards.js` too), and its network panel embeds `silverfox-network-card`. Replace any of them with cards you like using the `embeds:` option.
 
 ## Preview without Home Assistant
 
@@ -64,7 +69,7 @@ cd ha-3d-dashboards
 python -m http.server 8765
 ```
 
-Then open `http://localhost:8765/demo/index.html?card=home`. Other values: `bedroom`, `tv`, `garage`, `hero`, `tiles`. For the TV and Garage cards, add `&panel=camera` (or `photos`, `home`, `mower`, `fridge`, `washer`, ...) to see a specific panel.
+Then open `http://localhost:8765/demo/index.html?card=home`. Other values: `bedroom`, `tv`, `garage`, `hero`, `tiles`, `appliances`. For the TV and Garage cards, add `&panel=camera` (or `photos`, `home`, `mower`, `fridge`, `washer`, ...) to see a specific panel.
 
 ## Tips
 

@@ -64,7 +64,7 @@ const PANELS = {
 };
 
 function defaultEmbeds(C) {
-  const vac = (name, e, p) => [{ type: "custom:appliance-robot-vacuum-solo-card", name, entity: e, entity_battery: p + "battery_level", entity_area: p + "cleaned_area", entity_time: p + "cleaning_time", entity_status: p + "status", entity_filter: p + "filter_left", entity_brush: p + "main_brush_left", language: "en" }];
+  const vac = (name, e, p) => [{ type: "custom:home-vacuum-card", name, entity: e, entity_battery: p + "battery_level", entity_area: p + "cleaned_area", entity_time: p + "cleaning_time", entity_status: p + "status", entity_filter: p + "filter_left", entity_brush: p + "main_brush_left", language: "en" }];
   const pre = (e) => "sensor." + (e || "").split(".")[1] + "_";
   return Object.assign({
     camera: (C.cams || []).map((entity) => ({ type: "picture-entity", entity, camera_view: "live", show_name: false, show_state: false, fit_mode: "contain", aspect_ratio: "16:9", tap_action: { action: "none" }, hold_action: { action: "none" } })),

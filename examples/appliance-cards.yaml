@@ -1,0 +1,91 @@
+# A Sections view using every appliance & bin card. Replace the entity ids with your own.
+# Needs the resource /local/home-appliance-cards.js (JavaScript module).
+title: Appliances
+path: appliances
+type: sections
+max_columns: 3
+sections:
+  - type: grid
+    cards:
+      - type: heading
+        heading: Kitchen & laundry
+      - type: custom:home-washer-card
+        name: Washer / Dryer
+        entity: sensor.washer_machine_state
+        program: sensor.washer_cycle
+        remaining: sensor.washer_time_remaining
+      - type: custom:home-fridge-card
+        name: Fridge
+        temperature: number.fridge_temperature
+        freezer_temperature: number.freezer_temperature
+        door: binary_sensor.fridge_door
+        max_temperature: 40
+      - type: custom:home-tv-card
+        name: Living Room TV
+        entity: media_player.living_room_tv
+      - type: custom:home-ceiling-fan-card
+        name: Ceiling Fan
+        entity: switch.living_room_fan
+  - type: grid
+    cards:
+      - type: heading
+        heading: Outside
+      - type: custom:home-garage-door-card
+        name: Garage Door
+        entity: cover.garage_door
+        travel_time: 14
+      - type: custom:home-mower-card
+        name: Robot Mower
+        entity: lawn_mower.robot_mower
+        entity_battery: sensor.robot_mower_battery
+        entity_next_start: sensor.robot_mower_next_start
+      - type: custom:home-bin-card
+        name: Garbage
+        entity: sensor.next_trash_pickup_date
+        bin: green
+        content: trash
+        interval: 7
+        grid_options: { columns: 6 }
+      - type: custom:home-bin-card
+        name: Recycling
+        entity: sensor.next_recycling_pickup_date
+        bin: blue
+        content: recyclables
+        interval: 14
+        grid_options: { columns: 6 }
+  - type: grid
+    cards:
+      - type: heading
+        heading: Robots, climate & servers
+      - type: custom:home-vacuum-card
+        name: Robot Vacuum
+        entity: vacuum.robot_vacuum
+        entity_battery: sensor.robot_vacuum_battery
+        entity_area: sensor.robot_vacuum_cleaned_area
+        entity_time: sensor.robot_vacuum_cleaning_time
+        entity_filter: sensor.robot_vacuum_filter_left
+        entity_brush: sensor.robot_vacuum_main_brush_left
+      - type: custom:home-ac-split-card
+        name: Shed AC
+        entity: climate.shed_ac
+        temperature: sensor.shed_temperature
+      - type: custom:home-fan-card
+        name: Desk Fan
+        entity: switch.desk_fan
+      - type: custom:home-mini-pc-card
+        name: node1
+        entity: binary_sensor.node1_status
+        entity_cpu: sensor.node1_cpu_used
+        entity_ram: sensor.node1_memory_used
+        entity_disk: sensor.node1_disk_used
+        entity_uptime: sensor.node1_last_boot
+        grid_options: { columns: 4 }
+      - type: custom:home-server-rack-card
+        name: node2
+        entity: binary_sensor.node2_status
+        grid_options: { columns: 4 }
+      - type: custom:home-mini-pc-card
+        name: node3
+        entity: binary_sensor.node3_status
+        entity_cpu: sensor.node3_cpu_used
+        grid_options: { columns: 4 }

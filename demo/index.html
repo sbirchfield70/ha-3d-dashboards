@@ -10,6 +10,8 @@
   html, body { margin: 0; background: #0f2547; color: #eef4ff; font-family: Nunito, sans-serif; }
   #wrap { padding: 0; }
   #wrap.cards { padding: 16px; max-width: 1180px; margin: 0 auto; display: grid; gap: 18px; }
+  #wrap.grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 12px; --primary-text-color: #f2f6fc; --secondary-text-color: #c3d2e8; }
+  .col { display: grid; gap: 12px; min-width: 0; } .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   #err { color: #ff8a7a; white-space: pre-wrap; font: 14px monospace; padding: 8px; }
 </style>
 <script src="mock-hass.js"></script>
@@ -18,7 +20,7 @@
 <div id="wrap"></div>
 <div id="err"></div>
 <script>
-  // Demo previews with made-up entities. Open index.html?card=home|bedroom|tv|garage|hero|car|tiles (&panel=... for tv/garage)
+  // Demo previews with made-up entities. Open index.html?card=home|bedroom|tv|garage|hero|car|tiles|appliances (&panel=... for tv/garage)
   window.addEventListener("error", (e) => (document.getElementById("err").textContent += "ERROR: " + e.message + " @" + e.filename + ":" + e.lineno + "\n"));
   const card = new URLSearchParams(location.search).get("card") || "home";
   const CONFIGS = {
@@ -68,12 +70,40 @@
         { entity: "cover.garage_door", name: "Garage" }, { entity: "lock.front_door", name: "Front Door" },
         { entity: "switch.backyard_lights", name: "Backyard", icon: "mdi:string-lights" }, { entity: "fan.purifier", name: "Purifier" }] } },
     ] },
+    appliances: { file: "home-appliance-cards.js", columns: [
+      [ { tag: "home-washer-card", cfg: { name: "Washer / Dryer", entity: "sensor.washer_machine_state", program: "sensor.washer_cycle", remaining: "sensor.washer_time_remaining" } },
+        { tag: "home-fridge-card", cfg: { name: "Fridge", temperature: "number.fridge_temperature", freezer_temperature: "number.freezer_temperature", door: "binary_sensor.fridge_door", max_temperature: 40 } },
+        { tag: "home-tv-card", cfg: { name: "Living Room TV", entity: "media_player.living_room_tv" } },
+        { tag: "home-ac-split-card", cfg: { name: "Shed AC", entity: "climate.shed_ac", temperature: "sensor.shed_temperature" } } ],
+      [ { tag: "home-garage-door-card", cfg: { name: "Garage Door", entity: "cover.garage_door", travel_time: 14 } },
+        { tag: "home-mower-card", cfg: { name: "Robot Mower", entity: "lawn_mower.robot_mower", entity_battery: "sensor.robot_mower_battery", entity_next_start: "sensor.robot_mower_next_start" } },
+        { row: [ { tag: "home-mini-pc-card", cfg: { name: "node1", entity: "binary_sensor.node1_status", entity_cpu: "sensor.node1_cpu_used", entity_ram: "sensor.node1_memory_used", entity_disk: "sensor.node1_disk_used", entity_uptime: "sensor.node1_last_boot", extra_tiles: [{ entity: "sensor.node1_vms", name: "VMs", icon: "mdi:monitor" }, { entity: "sensor.node1_containers", name: "Containers", icon: "mdi:package-variant-closed" }] } },
+            { tag: "home-server-rack-card", cfg: { name: "node2", entity: "binary_sensor.node2_status" } },
+            { tag: "home-mini-pc-card", cfg: { name: "node3", entity: "binary_sensor.node3_status", entity_cpu: "sensor.node3_cpu_used", entity_ram: "sensor.node3_memory_used", entity_disk: "sensor.node3_disk_used", entity_uptime: "sensor.node3_last_boot" } } ] } ],
+      [ { tag: "home-vacuum-card", cfg: { name: "Robot Vacuum", entity: "vacuum.main_vacuum", entity_battery: "sensor.main_vacuum_battery", entity_area: "sensor.main_vacuum_cleaned_area", entity_time: "sensor.main_vacuum_cleaning_time", entity_filter: "sensor.main_vacuum_filter_left", entity_brush: "sensor.main_vacuum_main_brush_left" } },
+        { row2: [ { tag: "home-bin-card", cfg: { name: "Garbage", bin: "green", content: "trash", entity: "sensor.next_trash_pickup_date", interval: 7 } },
+            { tag: "home-bin-card", cfg: { name: "Recycling", bin: "blue", content: "recyclables", entity: "sensor.next_recycling_pickup_date", interval: 14 } } ] },
+        { row2: [ { tag: "home-ceiling-fan-card", cfg: { name: "Ceiling Fan", entity: "switch.living_room_ceiling_fan" } },
+            { tag: "home-fan-card", cfg: { name: "Desk Fan", entity: "switch.desk_fan" } } ] } ] ] },
   };
   const C = CONFIGS[card];
   const s = document.createElement("script");
   s.type = "module"; s.src = "../cards/" + C.file;
   s.onload = () => {
     const wrap = document.getElementById("wrap");
+    const mk = (x, parent) => { const el = document.createElement(x.tag); el.setConfig(x.cfg); parent.appendChild(el); el.hass = window.mockHass; setTimeout(() => (el.hass = window.mockHass), 400); };
+    if (C.columns) {
+      wrap.className = "cards grid3";
+      for (const colDef of C.columns) {
+        const col = document.createElement("div"); col.className = "col"; wrap.appendChild(col);
+        for (const x of colDef) {
+          const group = x.row || x.row2;
+          if (group) { const r = document.createElement("div"); r.className = "row3"; if (x.row2) r.style.gridTemplateColumns = "minmax(0,1fr) minmax(0,1fr)"; col.appendChild(r); group.forEach((g) => mk(g, r)); }
+          else mk(x, col);
+        }
+      }
+      return;
+    }
     const list = C.multi || [{ tag: C.tag, cfg: C.cfg }];
     if (C.multi) wrap.className = "cards";
     for (const x of list) {

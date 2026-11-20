@@ -23,7 +23,8 @@
       case "lawn_mower": return st("docked");
       case "cover": return st("closed");
       case "lock": return st("locked");
-      case "climate": return st("heat", { current_temperature: 70, temperature: 68, hvac_action: "idle", hvac_modes: ["off", "heat", "cool", "auto"] });
+      case "climate": if (/ac|split/.test(name)) return st("cool", { current_temperature: 76, temperature: 72, hvac_action: "cooling" });
+        return st("heat", { current_temperature: 70, temperature: 68, hvac_action: "idle", hvac_modes: ["off", "heat", "cool", "auto"] });
       case "media_player": return st("on", { source: "Streaming" });
       case "number": return st(/freezer/.test(name) ? 0 : 37, { unit_of_measurement: "°F" });
       case "binary_sensor": return st(/online|status|charging|quorate/.test(name) ? "on" : "off");
@@ -45,7 +46,11 @@
         if (/summary/.test(name)) return st("Partly cloudy until evening.");
         if (/machine_state/.test(name)) return st("Run");
         if (/sub_cycle/.test(name)) return st("rinse");
-        if (/time_remaining/.test(name)) return st(1680);
+        if (/time_remaining/.test(name)) return st(1680, { unit_of_measurement: "s" });
+        if (/boot/.test(name)) return st(iso(new Date(Date.now() - 12.3 * 864e5)));
+        if (/cpu|memory|disk/.test(name)) return st(/cpu/.test(name) ? 18 : /memory/.test(name) ? 61 : 34, { unit_of_measurement: "%" });
+        if (/cycle$|program/.test(name)) return st("Normal");
+        if (/vms|containers/.test(name)) return st(/vms/.test(name) ? 2 : 6);
         if (/wind|gust/.test(name)) return st(/gust/.test(name) ? 16 : 9);
         if (/filter|brush|desiccant|life/.test(name)) return st(72, { unit_of_measurement: "%" });
         if (/status$/.test(name)) return st("charging_completed");
@@ -78,6 +83,10 @@
       el.innerHTML = cfg.type === "picture-entity" ? `<img src="photo.svg" style="width:100%;border-radius:12px;display:block">` : `${(cfg.name || cfg.type || "").replace("custom:", "")}`;
       return el;
     },
+  });
+  // Stand-in for Home Assistant's <ha-card> frame (the appliance cards rely on it for their background).
+  if (!customElements.get("ha-card")) customElements.define("ha-card", class extends HTMLElement {
+    constructor() { super(); this.attachShadow({ mode: "open" }).innerHTML = `<style>:host{display:block;background:var(--ha-card-background,linear-gradient(160deg,#22497f,#142f58));border-radius:22px;box-shadow:0 7px 0 #0d2142,0 14px 24px rgba(0,0,0,.4);color:var(--primary-text-color,#f2f6fc)}</style><slot></slot>`; }
   });
   if (!customElements.get("ha-icon")) customElements.define("ha-icon", class extends HTMLElement {
     static get observedAttributes() { return ["icon"]; }
