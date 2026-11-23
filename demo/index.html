@@ -20,7 +20,7 @@
 <div id="wrap"></div>
 <div id="err"></div>
 <script>
-  // Demo previews with made-up entities. Open index.html?card=home|bedroom|tv|garage|hero|car|tiles|appliances (&panel=... for tv/garage)
+  // Demo previews with made-up entities. Open index.html?card=home|bedroom|tv|garage|home80|home80amber|hero|car|tiles|appliances (&panel=... for tv/garage)
   window.addEventListener("error", (e) => (document.getElementById("err").textContent += "ERROR: " + e.message + " @" + e.filename + ":" + e.lineno + "\n"));
   const card = new URLSearchParams(location.search).get("card") || "home";
   const CONFIGS = {
@@ -46,6 +46,8 @@
     bedroom: { file: "bedroom3d-card.js", tag: "bedroom3d-card", cfg: { calendars: ["calendar.family"] } },
     tv: { file: "tv3d-card.js", tag: "tv3d-card", cfg: { calendars: ["calendar.family"] } },
     garage: { file: "garage3d-card.js", tag: "garage3d-card", cfg: {} },
+    home80: { file: "home80-card.js", tag: "home80-card", cfg: { indoor: ["climate.downstairs", "climate.upstairs"], calendars: ["calendar.family"] } },
+    home80amber: { file: "home80-card.js", tag: "home80-card", cfg: { color: "amber", indoor: ["climate.downstairs", "climate.upstairs"], calendars: ["calendar.family"] } },
     hero: { file: "room3d.js", multi: [
       { tag: "room3d-hero", cfg: { scene: "home", title: "Home", icon: "mdi:home",
         entities: { garage: "cover.garage_door", porch_light: "light.porch", garage_lights: ["light.garage_left", "light.garage_right"], lock: "lock.front_door" },

@@ -12,6 +12,8 @@ There's also a matching skin for the [Glance](https://github.com/glanceapp/glanc
 | **[Home 3D](docs/home3d-card.md)**: clock, weather house, gauges, 4 tappable 3D rooms, forecast, calendar | **[Bedroom 3D](docs/bedroom3d-card.md)**: 3D bedroom scene and 9 touch tiles (lamps, purifier, vacuum, litter box, feeder) |
 | ![TV 3D](screenshots/tv.png) | ![Garage 3D](screenshots/garage.png) |
 | **[TV 3D](docs/tv3d-card.md)**: display-only TV screen with a rotating right panel (photos, cameras, bins, mower, vacuums) | **[Garage 3D](docs/garage3d-card.md)**: wall monitor with two live cameras, fridge/washer/vacuum panel, bins and garage door |
+| ![Home 80s](screenshots/home80.png) | ![Home 80s amber](screenshots/home80-amber.png) |
+| **[Home 80s](docs/home80-card.md)**: the Home dashboard as an 80s CRT computer, green or amber phosphor, ASCII house and weather | Tap the knob on the monitor to switch to amber |
 | ![Room 3D hero](screenshots/hero.png) | ![Room 3D tiles](screenshots/tiles.png) |
 | **[Room 3D hero](docs/room3d.md)**: a banner for the top of any dashboard page, with 11 scenes | **[Room 3D tiles](docs/room3d.md#room3d-tiles)**: big 3D touch tiles for lights, switches, locks and covers |
 
@@ -27,6 +29,7 @@ There's also a matching skin for the [Glance](https://github.com/glanceapp/glanc
 |---|---|---|
 | [`cards/home3d-card.js`](cards/home3d-card.js) | `custom:home3d-card` | 1280×720 |
 | [`cards/bedroom3d-card.js`](cards/bedroom3d-card.js) | `custom:bedroom3d-card` | 1280×720 |
+| [`cards/home80-card.js`](cards/home80-card.js) | `custom:home80-card` | 1280×720 |
 | [`cards/tv3d-card.js`](cards/tv3d-card.js) | `custom:tv3d-card` | 960×540 |
 | [`cards/garage3d-card.js`](cards/garage3d-card.js) | `custom:garage3d-card` | 1400×875 |
 | [`cards/room3d.js`](cards/room3d.js) | `custom:room3d-hero`, `custom:room3d-tiles` | fits the column |
@@ -45,7 +48,7 @@ The same steps apply to every card.
    - Type: **JavaScript module**
 3. Add the card to a dashboard in YAML mode, for example `type: custom:home3d-card`. See each card's page for its options, or start from a file in [`examples/`](examples).
 
-The full-screen cards (Home, Bedroom, TV, Garage) look best in a view of type **Panel**, so the card fills the screen. The Room 3D cards are made for **Sections** views.
+The full-screen cards (Home, Home 80s, Bedroom, TV, Garage) look best in a view of type **Panel**, so the card fills the screen. The Room 3D cards are made for **Sections** views.
 
 **After updating a file**, change the resource URL to `...js?v=2` (then `v=3`, and so on) so browsers fetch the new version.
 
@@ -69,7 +72,7 @@ cd ha-3d-dashboards
 python -m http.server 8765
 ```
 
-Then open `http://localhost:8765/demo/index.html?card=home`. Other values: `bedroom`, `tv`, `garage`, `hero`, `tiles`, `appliances`. For the TV and Garage cards, add `&panel=camera` (or `photos`, `home`, `mower`, `fridge`, `washer`, ...) to see a specific panel.
+Then open `http://localhost:8765/demo/index.html?card=home`. Other values: `bedroom`, `tv`, `garage`, `home80`, `home80amber`, `hero`, `tiles`, `appliances`. For the TV and Garage cards, add `&panel=camera` (or `photos`, `home`, `mower`, `fridge`, `washer`, ...) to see a specific panel.
 
 ## Tips
 

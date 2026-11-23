@@ -1,0 +1,44 @@
+# Home 80s - a dashboard styled as an 80s CRT monitor.
+# Put it in a view of type Panel so it fills the screen.
+type: custom:home80-card
+title: HOME-OS
+color: green            # or amber (the knob on the bezel toggles it too)
+weather: weather.home
+outside_temp: sensor.outdoor_temperature   # optional
+indoor:
+  - climate.downstairs
+  - climate.upstairs
+calendars:
+  - calendar.family
+rooms:                  # up to 4; they map to the 4 windows of the ASCII house
+  - name: Kitchen
+    temp_entity: climate.downstairs
+    items:
+      - entity: light.kitchen_ceiling
+        name: Main Lights
+      - entity: light.kitchen_island
+        name: Island
+  - name: Dining Room
+    items:
+      - entity: light.dining_chandelier
+        name: Chandelier
+      - entity: switch.china_cabinet
+        name: Cabinet
+  - name: Living Room
+    temp_entity: climate.downstairs
+    items:
+      - entity: switch.tv_plug
+        name: TV
+        action: restart          # needs a second tap, then runs the script
+        script: script.tv_restart
+      - entity: fan.ceiling_fan
+        name: Fan
+      - entity: climate.downstairs
+        name: Thermostat
+  - name: Bedroom
+    temp_entity: sensor.bedroom_temperature
+    items:
+      - entity: light.lamp_left
+        name: Left Lamp
+      - entity: light.lamp_right
+        name: Right Lamp
